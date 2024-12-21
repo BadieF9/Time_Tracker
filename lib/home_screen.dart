@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker/add_time_entry_screen.dart';
+import 'package:time_tracker/models/project.dart';
+import 'package:time_tracker/models/task.dart';
 import 'package:time_tracker/project_task_management_screen.dart';
 import 'package:time_tracker/providers/project_task_provider.dart';
 import 'providers/time_entry_provider.dart';
@@ -30,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ProjectTaskProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -69,11 +72,13 @@ class _HomeScreenState extends State<HomeScreen>
               title: const Text('Projects'),
               onTap: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ProjectTaskManagementScreen(),
-                  ),
-                );
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ProjectTaskManagementScreen<Project>(
+                        items: provider.projects,
+                      ),
+                    ));
               },
             ),
             ListTile(
@@ -84,7 +89,9 @@ class _HomeScreenState extends State<HomeScreen>
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ProjectTaskManagementScreen(),
+                    builder: (context) => ProjectTaskManagementScreen<Task>(
+                      items: provider.tasks,
+                    ),
                   ),
                 );
               },
