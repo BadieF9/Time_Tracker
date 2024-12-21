@@ -117,7 +117,7 @@ class AllEntriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final timeEntryProvider = Provider.of<TimeEntryProvider>(context);
-    final projectTaskProvider = Provider.of<ProjectTaskProvider>(context);
+    // final projectTaskProvider = Provider.of<ProjectTaskProvider>(context);
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(5, 15, 5, 15),
@@ -126,7 +126,7 @@ class AllEntriesScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             final entry = timeEntryProvider.entries[index];
             return Padding(
-                padding: const EdgeInsets.only(bottom: 15),
+                padding: const EdgeInsets.only(bottom: 10),
                 child: Card(
                   elevation: 5,
                   shape: RoundedRectangleBorder(
@@ -199,23 +199,53 @@ class GroupedByProjectsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TimeEntryProvider>(builder: (context, provider, child) {
-      return ListView.builder(
-        itemCount: provider.entries.length,
+    final theme = Theme.of(context);
+    TimeEntryProvider timeEntryProvider =
+        Provider.of<TimeEntryProvider>(context);
+    ProjectTaskProvider projectTaskProvider =
+        Provider.of<ProjectTaskProvider>(context);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(5, 15, 5, 15),
+      child: ListView.builder(
+        itemCount: projectTaskProvider.projects.length,
         itemBuilder: (context, index) {
-          final entry = provider.entries[index];
-          return ListTile(
-            title: Text(
-              '${entry.projectId} - ${entry.totalTime} hours',
-              style: const TextStyle(color: Colors.teal),
-            ),
-            subtitle: Text('${entry.date.toString()} - Notes: ${entry.notes}'),
-            onTap: () {
-              // This could open a detailed view or edit screen
-            },
-          );
+          final project = projectTaskProvider.projects[index];
+          return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 15, 4, 15),
+                    child: ListTile(
+                      title: Text(
+                        "Project Gamma - Task A",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: timeEntryProvider
+                              .getEntriesByProjectId(project.id)
+                              .map((entry) => Text(
+                                    '- ${projectTaskProvider.getTaskById(entry.taskId)?.name}: ${entry.totalTime} hours ${DateFormat('MMM dd, yyyy').format(entry.date)}',
+                                    style: const TextStyle(fontSize: 16),
+                                  ))
+                              .toList(),
+                        ),
+                      ),
+                    )),
+              ));
         },
-      );
-    });
+      ),
+    );
   }
 }
