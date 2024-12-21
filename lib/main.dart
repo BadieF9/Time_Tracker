@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Time Tracker',
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
             appBarTheme: const AppBarTheme(
                 centerTitle: true,
                 backgroundColor: Colors.teal,

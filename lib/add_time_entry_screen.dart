@@ -4,7 +4,8 @@ import 'package:time_tracker/providers/time_entry_provider.dart';
 import 'models/time_entry.dart';
 
 class AddTimeEntryScreen extends StatefulWidget {
-  const AddTimeEntryScreen({super.key});
+  final TimeEntry? timeEntry;
+  const AddTimeEntryScreen({super.key, this.timeEntry});
 
   @override
   _AddTimeEntryScreenState createState() => _AddTimeEntryScreenState();
