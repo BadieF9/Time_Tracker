@@ -40,6 +40,10 @@ class TimeEntryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  List<TimeEntry> getEntriesByProjectId(String projectId) {
+    return _entries.where((entry) => entry.projectId == projectId).toList();
+  }
+
   void deleteTimeEntry(String id) {
     _entries.removeWhere((entry) => entry.id == id);
     notifyListeners();
