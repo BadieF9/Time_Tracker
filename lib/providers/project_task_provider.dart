@@ -40,6 +40,10 @@ class ProjectTaskProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Project? getProjectById(String id) {
+    return _projects.firstWhere((project) => project.id == id);
+  }
+
   void removeProject(String id) {
     _projects.removeWhere((project) => project.id == id);
     notifyListeners();
@@ -48,6 +52,10 @@ class ProjectTaskProvider with ChangeNotifier {
   void addTask(Task task) {
     _tasks.add(task);
     notifyListeners();
+  }
+
+  Task? getTaskById(String id) {
+    return _tasks.firstWhere((task) => task.id == id);
   }
 
   void removeTask(String id) {
