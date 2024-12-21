@@ -117,6 +117,7 @@ class AllEntriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final timeEntryProvider = Provider.of<TimeEntryProvider>(context);
+    final projectTaskProvider = Provider.of<ProjectTaskProvider>(context);
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(5, 15, 5, 15),
