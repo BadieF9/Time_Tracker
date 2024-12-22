@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/dialogs/delete_confirmation_dialog.dart';
 
-// Generic Dismissible List Item Component
-class DismissibleListItem extends StatelessWidget {
+// Generic Dismissible Widget Component
+class DismissibleWidget extends StatelessWidget {
   final Key itemKey;
   final Widget child;
   final Future<bool?> Function(DismissDirection)? confirmDismiss;
@@ -10,7 +10,7 @@ class DismissibleListItem extends StatelessWidget {
   final Widget? background;
   final Widget? secondaryBackground;
 
-  const DismissibleListItem({
+  const DismissibleWidget({
     super.key,
     required this.itemKey,
     required this.child,

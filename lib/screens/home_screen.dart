@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker/dialogs/dismissable_list_item.dart';
+import 'package:time_tracker/widgets/dismissable_widget.dart';
 import 'package:time_tracker/screens/add_time_entry_screen.dart';
 import 'package:time_tracker/models/project.dart';
 import 'package:time_tracker/models/task.dart';
@@ -164,7 +164,7 @@ class AllEntriesScreen extends StatelessWidget {
             final entry = timeEntryProvider.entries[index];
             return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: DismissibleListItem(
+                child: DismissibleWidget(
                     itemKey: Key(entry.id),
                     onDismissed: (direction) {
                       timeEntryProvider.removeTimeEntry(entry.id);
