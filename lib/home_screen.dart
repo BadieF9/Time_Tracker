@@ -189,8 +189,9 @@ class AllEntriesScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  AddTimeEntryScreen(timeEntry: entry),
+                              builder: (context) => AddTimeEntryScreen(
+                                timeEntry: entry,
+                              ),
                             ),
                           );
                         },
