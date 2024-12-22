@@ -125,6 +125,7 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
                     child: const Text('Select Date')),
                 const SizedBox(height: 15),
                 TextFormField(
+                  initialValue: totalTime.toString(),
                   decoration: const InputDecoration(
                       labelText: 'Total Time (hours)',
                       border: InputBorder.none),
@@ -143,6 +144,7 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
                 ),
                 const SizedBox(height: 15),
                 TextFormField(
+                  initialValue: notes,
                   decoration: const InputDecoration(labelText: 'Notes'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
