@@ -9,20 +9,6 @@ class TimeEntryProvider with ChangeNotifier {
 
   TimeEntryProvider({required this.storage}) {
     _loadTimeEntriesFromStorage();
-    addTimeEntry(TimeEntry(
-        id: "1",
-        projectId: "1",
-        taskId: "1",
-        totalTime: 1,
-        date: DateTime.now(),
-        notes: "hello"));
-    addTimeEntry(TimeEntry(
-        id: "2",
-        projectId: "2",
-        taskId: "2",
-        totalTime: 2,
-        date: DateTime.now(),
-        notes: "world"));
   }
 
   void _loadTimeEntriesFromStorage() async {

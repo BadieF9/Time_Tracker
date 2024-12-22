@@ -12,13 +12,7 @@ class ProjectTaskProvider with ChangeNotifier {
 
   ProjectTaskProvider({required this.storage}) {
     _loadProjectsFromStorage();
-    addProject(Project(id: '1', name: 'Project 1'));
-    addProject(Project(id: '2', name: 'Project 2'));
-    addProject(Project(id: '3', name: 'Project 3'));
     _loadTasksFromStorage();
-    addTask(Task(id: '1', name: 'Task 1'));
-    addTask(Task(id: '2', name: 'Task 2'));
-    addTask(Task(id: '3', name: 'Task 3'));
   }
 
   void _loadProjectsFromStorage() async {
