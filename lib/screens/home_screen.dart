@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:time_tracker/dialogs/delete_confirmation_dialog.dart';
 import 'package:time_tracker/widgets/dismissable_widget.dart';
 import 'package:time_tracker/screens/add_time_entry_screen.dart';
 import 'package:time_tracker/models/project.dart';
@@ -207,8 +208,23 @@ class AllEntriesScreen extends StatelessWidget {
                                 Icons.delete,
                                 color: Colors.red,
                               ),
-                              onPressed: () {
-                                timeEntryProvider.removeTimeEntry(entry.id);
+                              onPressed: () async {
+                                bool? confirmed = await showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return DeleteConfirmationDialog(
+                                        title: 'Confirm Delete',
+                                        content:
+                                            'Are you sure you want to delete this item?',
+                                        onConfirm: () =>
+                                            Navigator.of(context).pop(true),
+                                        onCancel: () =>
+                                            Navigator.of(context).pop(false));
+                                  },
+                                );
+                                if (confirmed == true) {
+                                  timeEntryProvider.removeTimeEntry(entry.id);
+                                }
                               },
                             ),
                             onTap: () {
