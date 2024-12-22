@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:time_tracker/dialogs/dismissable_list_item.dart';
 import 'package:time_tracker/screens/add_time_entry_screen.dart';
 import 'package:time_tracker/models/project.dart';
 import 'package:time_tracker/models/task.dart';
@@ -163,60 +164,65 @@ class AllEntriesScreen extends StatelessWidget {
             final entry = timeEntryProvider.entries[index];
             return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(4, 15, 4, 15),
-                      child: ListTile(
-                        title: Text(
-                          '${projectTaskProvider.getProjectById(entry.projectId)?.name} - ${projectTaskProvider.getTaskById(entry.taskId)?.name}',
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Total Time: ${entry.totalTime} hours',
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                'Date: ${DateFormat('MMM dd, yyyy').format(entry.date)}',
-                                style: const TextStyle(
-                                    fontSize: 16, color: Colors.grey),
-                              ),
-                              Text(
-                                'Note: ${entry.notes}',
-                                style: const TextStyle(fontSize: 16),
-                              )
-                            ],
-                          ),
-                        ),
-                        trailing: IconButton(
-                          icon: const Icon(
-                            Icons.delete,
-                            color: Colors.red,
-                          ),
-                          onPressed: () {
-                            timeEntryProvider.removeTimeEntry(entry.id);
-                          },
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddTimeEntryScreen(
-                                timeEntry: entry,
+                child: DismissibleListItem(
+                    itemKey: Key(entry.id),
+                    onDismissed: (direction) {
+                      timeEntryProvider.removeTimeEntry(entry.id);
+                    },
+                    child: Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Padding(
+                          padding: const EdgeInsets.fromLTRB(4, 15, 4, 15),
+                          child: ListTile(
+                            title: Text(
+                              '${projectTaskProvider.getProjectById(entry.projectId)?.name} - ${projectTaskProvider.getTaskById(entry.taskId)?.name}',
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Total Time: ${entry.totalTime} hours',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    'Date: ${DateFormat('MMM dd, yyyy').format(entry.date)}',
+                                    style: const TextStyle(
+                                        fontSize: 16, color: Colors.grey),
+                                  ),
+                                  Text(
+                                    'Note: ${entry.notes}',
+                                    style: const TextStyle(fontSize: 16),
+                                  )
+                                ],
                               ),
                             ),
-                          );
-                        },
-                      )),
-                ));
+                            trailing: IconButton(
+                              icon: const Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                timeEntryProvider.removeTimeEntry(entry.id);
+                              },
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddTimeEntryScreen(
+                                    timeEntry: entry,
+                                  ),
+                                ),
+                              );
+                            },
+                          )),
+                    )));
           },
         ));
   }
