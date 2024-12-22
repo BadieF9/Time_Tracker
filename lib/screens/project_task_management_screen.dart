@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:time_tracker/dialogs/creation_dialog.dart';
 import 'package:time_tracker/models/project.dart';
 import 'package:time_tracker/models/task.dart';
 import '../providers/project_task_provider.dart';
@@ -65,72 +66,56 @@ class ProjectTaskManagementScreen<T> extends StatelessWidget {
   }
 
   void _showAddProjectDialog(BuildContext context) {
-    final TextEditingController projectNameController = TextEditingController();
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: const Text('Add Project'),
-          content: TextField(
-            controller: projectNameController,
-            decoration: const InputDecoration(labelText: 'Project Name'),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                final project = Project(
-                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                  name: projectNameController.text,
-                );
-                Provider.of<ProjectTaskProvider>(context, listen: false)
-                    .addProject(project);
-                Navigator.pop(context);
-              },
-              child: const Text('Add'),
-            ),
-          ],
+        return CreationDialog(
+          title: 'Add Project',
+          content: 'Project Name',
+          onCancel: () {
+            Navigator.pop(context);
+          },
+          onConfirm: (GlobalKey<FormState> formKey, String value) {
+            if (formKey.currentState!.validate()) {
+              formKey.currentState!.save();
+              final project = Project(
+                id: DateTime.now().millisecondsSinceEpoch.toString(),
+                name: value,
+              );
+              Provider.of<ProjectTaskProvider>(context, listen: false)
+                  .addProject(project);
+              Navigator.pop(context);
+            }
+          },
+          validationErrorMessage: 'Please enter a project name',
         );
       },
     );
   }
 
   void _showAddTaskDialog(BuildContext context) {
-    final TextEditingController taskNameController = TextEditingController();
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: const Text('Add Task'),
-          content: TextField(
-            controller: taskNameController,
-            decoration: const InputDecoration(labelText: 'Task Name'),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                final task = Task(
-                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                  name: taskNameController.text,
-                );
-                Provider.of<ProjectTaskProvider>(context, listen: false)
-                    .addTask(task);
-                Navigator.pop(context);
-              },
-              child: const Text('Add'),
-            ),
-          ],
+        return CreationDialog(
+          title: 'Add Task',
+          content: 'Task Name',
+          onCancel: () {
+            Navigator.pop(context);
+          },
+          onConfirm: (GlobalKey<FormState> formKey, String value) {
+            if (formKey.currentState!.validate()) {
+              formKey.currentState!.save();
+              final task = Task(
+                id: DateTime.now().millisecondsSinceEpoch.toString(),
+                name: value,
+              );
+              Provider.of<ProjectTaskProvider>(context, listen: false)
+                  .addTask(task);
+              Navigator.pop(context);
+            }
+          },
+          validationErrorMessage: 'Please enter a task name',
         );
       },
     );
