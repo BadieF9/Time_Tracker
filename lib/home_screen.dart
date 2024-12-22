@@ -45,12 +45,10 @@ class _HomeScreenState extends State<HomeScreen>
         ),
       ),
       drawer: Drawer(
-        // This is the sidebar
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             const DrawerHeader(
-                // Header of the sidebar
                 decoration: BoxDecoration(
                   color: Colors.teal,
                 ),
@@ -64,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                 )),
             ListTile(
-              // Item in the sidebar
               leading: const Icon(
                 Icons.folder,
                 color: Colors.black,
@@ -82,7 +79,6 @@ class _HomeScreenState extends State<HomeScreen>
               },
             ),
             ListTile(
-              // Item in the sidebar
               leading: const Icon(Icons.assignment, color: Colors.black),
               title: const Text('Tasks'),
               onTap: () {
@@ -104,7 +100,6 @@ class _HomeScreenState extends State<HomeScreen>
           children: const [AllEntriesScreen(), GroupedByProjectsScreen()]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigate to the screen to add a new time entry
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const AddTimeEntryScreen()),
@@ -122,9 +117,8 @@ class AllEntriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final timeEntryProvider = Provider.of<TimeEntryProvider>(context);
-    // final projectTaskProvider = Provider.of<ProjectTaskProvider>(context);
+    final projectTaskProvider = Provider.of<ProjectTaskProvider>(context);
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(5, 15, 5, 15),
@@ -143,47 +137,38 @@ class AllEntriesScreen extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(4, 15, 4, 15),
                       child: ListTile(
                         title: Text(
-                          "Project Gamma - Task A",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: theme.colorScheme.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          '${projectTaskProvider.getProjectById(entry.projectId)?.name} - ${projectTaskProvider.getTaskById(entry.taskId)?.name}',
+                          style: const TextStyle(fontSize: 20),
                         ),
-                        // title: Text(
-                        //   '${projectTaskProvider.getProjectById(entry.projectId)?.name} - \$${projectTaskProvider.getTaskById(entry.taskId)?.name}',
-                        //   style: const TextStyle(fontSize: 20),
-                        // ),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Total Time: ${entry.totalTime} hours',
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    'Date: ${DateFormat('MMM dd, yyyy').format(entry.date)}',
-                                    style: const TextStyle(
-                                        fontSize: 16, color: Colors.grey),
-                                  ),
-                                  Text(
-                                    'Note: ${entry.notes}',
-                                    style: const TextStyle(fontSize: 16),
-                                  )
-                                ],
+                              Text(
+                                'Total Time: ${entry.totalTime} hours',
+                                style: const TextStyle(fontSize: 16),
                               ),
-                              const Icon(
-                                Icons.delete,
-                                color: Colors.red,
+                              Text(
+                                'Date: ${DateFormat('MMM dd, yyyy').format(entry.date)}',
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.grey),
+                              ),
+                              Text(
+                                'Note: ${entry.notes}',
+                                style: const TextStyle(fontSize: 16),
                               )
                             ],
                           ),
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            timeEntryProvider.removeTimeEntry(entry.id);
+                          },
                         ),
                         onTap: () {
                           Navigator.push(
@@ -230,7 +215,7 @@ class GroupedByProjectsScreen extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(4, 15, 4, 15),
                     child: ListTile(
                       title: Text(
-                        "Project Gamma - Task A",
+                        project.name,
                         style: TextStyle(
                           fontSize: 18,
                           color: theme.colorScheme.primary,

@@ -15,14 +15,14 @@ class TimeEntryProvider with ChangeNotifier {
         taskId: "1",
         totalTime: 1,
         date: DateTime.now(),
-        notes: "sdfdsfdsf"));
+        notes: "hello"));
     addTimeEntry(TimeEntry(
-        id: "1",
-        projectId: "1",
-        taskId: "1",
-        totalTime: 1,
+        id: "2",
+        projectId: "2",
+        taskId: "2",
+        totalTime: 2,
         date: DateTime.now(),
-        notes: "sdfdsfdsf"));
+        notes: "world"));
   }
 
   void _loadTimeEntriesFromStorage() async {
@@ -44,7 +44,7 @@ class TimeEntryProvider with ChangeNotifier {
     return _entries.where((entry) => entry.projectId == projectId).toList();
   }
 
-  void deleteTimeEntry(String id) {
+  void removeTimeEntry(String id) {
     _entries.removeWhere((entry) => entry.id == id);
     notifyListeners();
   }
