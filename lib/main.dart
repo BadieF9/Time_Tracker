@@ -42,6 +42,10 @@ class MyApp extends StatelessWidget {
                     BorderSide(width: 4.0, color: Colors.orange.shade200),
               ),
             ),
+            floatingActionButtonTheme: FloatingActionButtonThemeData(
+              backgroundColor: Colors.orange.shade300,
+              foregroundColor: Colors.white,
+            ),
             useMaterial3: true,
           ),
           home: const HomeScreen(),
