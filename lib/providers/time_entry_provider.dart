@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:time_tracker/models/time_entry.dart';
@@ -15,14 +16,23 @@ class TimeEntryProvider with ChangeNotifier {
     var storedEntries = storage.getItem('timeEntries');
     if (storedEntries != null) {
       _entries = List<TimeEntry>.from(
-        (storedEntries as List).map((item) => TimeEntry.fromJson(item)),
+        (jsonDecode(storedEntries) as List)
+            .map((item) => TimeEntry.fromJson(item)),
       );
       notifyListeners();
+    } else {
+      _saveEntriesToStorage();
     }
+  }
+
+  void _saveEntriesToStorage() {
+    storage.setItem(
+        'timeEntries', jsonEncode(_entries.map((e) => e.toJson()).toList()));
   }
 
   void addTimeEntry(TimeEntry entry) {
     _entries.add(entry);
+    _saveEntriesToStorage();
     notifyListeners();
   }
 
@@ -32,6 +42,7 @@ class TimeEntryProvider with ChangeNotifier {
 
   void removeTimeEntry(String id) {
     _entries.removeWhere((entry) => entry.id == id);
+    _saveEntriesToStorage();
     notifyListeners();
   }
 }
