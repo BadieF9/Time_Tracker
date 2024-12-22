@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker/models/project.dart';
 import 'package:time_tracker/models/task.dart';
-import 'providers/project_task_provider.dart';
+import '../providers/project_task_provider.dart';
 
 class ProjectTaskManagementScreen<T> extends StatelessWidget {
   final List<T> items;

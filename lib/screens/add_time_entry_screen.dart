@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:time_tracker/models/project.dart';
 import 'package:time_tracker/models/task.dart';
 import 'package:time_tracker/providers/project_task_provider.dart';
-import 'models/time_entry.dart';
-import 'providers/time_entry_provider.dart';
+import '../models/time_entry.dart';
+import '../providers/time_entry_provider.dart';
 
 class AddTimeEntryScreen extends StatefulWidget {
   final TimeEntry? timeEntry;

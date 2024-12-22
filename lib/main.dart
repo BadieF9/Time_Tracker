@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker/home_screen.dart';
+import 'package:time_tracker/screens/home_screen.dart';
 import 'package:time_tracker/providers/project_task_provider.dart';
 import 'package:time_tracker/providers/time_entry_provider.dart';
 

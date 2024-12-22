@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker/add_time_entry_screen.dart';
+import 'package:time_tracker/screens/add_time_entry_screen.dart';
 import 'package:time_tracker/models/project.dart';
 import 'package:time_tracker/models/task.dart';
-import 'package:time_tracker/project_task_management_screen.dart';
+import 'package:time_tracker/screens/project_task_management_screen.dart';
 import 'package:time_tracker/providers/project_task_provider.dart';
-import 'providers/time_entry_provider.dart';
+import '../providers/time_entry_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
