@@ -33,6 +33,8 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProjectTaskProvider>(context);
+    final timeEntryProvider = Provider.of<TimeEntryProvider>(context);
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -95,9 +97,11 @@ class _HomeScreenState extends State<HomeScreen>
           ],
         ),
       ),
-      body: TabBarView(
-          controller: _tabController,
-          children: const [AllEntriesScreen(), GroupedByProjectsScreen()]),
+      body: timeEntryProvider.entries.isNotEmpty
+          ? TabBarView(
+              controller: _tabController,
+              children: const [AllEntriesScreen(), GroupedByProjectsScreen()])
+          : emptyScreen(theme),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -109,6 +113,37 @@ class _HomeScreenState extends State<HomeScreen>
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  Widget emptyScreen(ThemeData theme) {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.hourglass_empty,
+          size: 80,
+          color: Colors.grey.shade400,
+        ),
+        const SizedBox(height: 20),
+        Text(
+          "No time entries yet!",
+          style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey.shade600),
+        ),
+        const SizedBox(height: 10),
+        const Text(
+          "Tap the + button to add your first entry.",
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.grey,
+          ),
+        )
+      ],
+    ));
   }
 }
 
