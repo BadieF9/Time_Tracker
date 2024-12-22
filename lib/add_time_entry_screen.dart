@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker/components/customized_dropdown.dart';
 import 'package:time_tracker/models/project.dart';
 import 'package:time_tracker/models/task.dart';
 import 'package:time_tracker/providers/project_task_provider.dart';
@@ -18,15 +17,14 @@ class AddTimeEntryScreen extends StatefulWidget {
 
 class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
   final _formKey = GlobalKey<FormState>();
-  String projectId = '';
-  String taskId = '';
+  String? projectId;
+  String? taskId;
   double totalTime = 0.0;
   DateTime date = DateTime.now();
   String notes = '';
 
   @override
   void initState() {
-    super.initState();
     if (widget.timeEntry != null) {
       projectId = widget.timeEntry!.projectId;
       taskId = widget.timeEntry!.taskId;
@@ -34,6 +32,7 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
       date = widget.timeEntry!.date;
       notes = widget.timeEntry!.notes;
     }
+    super.initState();
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -67,8 +66,21 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                CustomizedDropdown(
-                  hintText: "Project",
+                DropdownButtonFormField<String>(
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      projectId = newValue!;
+                    });
+                  },
+                  decoration: const InputDecoration(
+                      labelText: "Project", border: InputBorder.none),
+                  icon: const SizedBox.shrink(),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please Select a Project';
+                    }
+                    return null;
+                  },
                   items: provider.projects
                       .map<DropdownMenuItem<String>>((Project project) {
                     return DropdownMenuItem<String>(
@@ -76,21 +88,24 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
                       child: Text(project.name),
                     );
                   }).toList(),
+                  value: projectId,
+                ),
+                const SizedBox(height: 15),
+                DropdownButtonFormField<String>(
                   onChanged: (String? newValue) {
                     setState(() {
-                      projectId = newValue!;
+                      taskId = newValue!;
                     });
                   },
+                  decoration: const InputDecoration(
+                      labelText: "Task", border: InputBorder.none),
+                  icon: const SizedBox.shrink(),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please Select a Project';
+                      return 'Please Select a Task';
                     }
                     return null;
                   },
-                ),
-                const SizedBox(height: 15),
-                CustomizedDropdown(
-                  hintText: "Task",
                   items:
                       provider.tasks.map<DropdownMenuItem<String>>((Task task) {
                     return DropdownMenuItem<String>(
@@ -98,17 +113,7 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
                       child: Text(task.name),
                     );
                   }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      taskId = newValue!;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please Select a Task';
-                    }
-                    return null;
-                  },
+                  value: taskId,
                 ),
                 const SizedBox(height: 15),
                 Text(
@@ -155,8 +160,8 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
                       Provider.of<TimeEntryProvider>(context, listen: false)
                           .addTimeEntry(TimeEntry(
                         id: DateTime.now().toString(), // Simple ID generation
-                        projectId: projectId,
-                        taskId: taskId,
+                        projectId: projectId!,
+                        taskId: taskId!,
                         totalTime: totalTime,
                         date: date,
                         notes: notes,
