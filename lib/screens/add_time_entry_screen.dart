@@ -161,7 +161,9 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
                       _formKey.currentState!.save();
                       Provider.of<TimeEntryProvider>(context, listen: false)
                           .addTimeEntry(TimeEntry(
-                        id: DateTime.now().toString(), // Simple ID generation
+                        id: DateTime.now()
+                            .millisecondsSinceEpoch
+                            .toString(), // Simple ID generation
                         projectId: projectId!,
                         taskId: taskId!,
                         totalTime: totalTime,
