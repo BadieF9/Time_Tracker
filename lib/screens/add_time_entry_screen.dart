@@ -52,6 +52,25 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
     }
   }
 
+  void _saveEntry(BuildContext context, String? id) {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      Provider.of<TimeEntryProvider>(context, listen: false)
+          .addOrUpdateEntry(TimeEntry(
+        id: widget.timeEntry?.id ??
+            DateTime.now()
+                .millisecondsSinceEpoch
+                .toString(), // Simple ID generation
+        projectId: projectId!,
+        taskId: taskId!,
+        totalTime: totalTime,
+        date: date,
+        notes: notes,
+      ));
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProjectTaskProvider>(context);
@@ -156,24 +175,7 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
                 ),
                 const SizedBox(height: 15),
                 ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      Provider.of<TimeEntryProvider>(context, listen: false)
-                          .addOrUpdateEntry(TimeEntry(
-                        id: widget.timeEntry?.id ??
-                            DateTime.now()
-                                .millisecondsSinceEpoch
-                                .toString(), // Simple ID generation
-                        projectId: projectId!,
-                        taskId: taskId!,
-                        totalTime: totalTime,
-                        date: date,
-                        notes: notes,
-                      ));
-                      Navigator.pop(context);
-                    }
-                  },
+                  onPressed: () => _saveEntry(context, widget.timeEntry?.id),
                   child: const Text('Save the Entry'),
                 )
               ],
