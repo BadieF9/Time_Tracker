@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/dialogs/delete_confirmation_dialog.dart';
 
-// Generic Dismissible Widget Component
 class DismissibleWidget extends StatelessWidget {
   final Key itemKey;
   final Widget child;

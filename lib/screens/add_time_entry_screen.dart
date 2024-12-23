@@ -38,10 +38,10 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: date, // Start with current date
-      firstDate: DateTime(1900), // Earliest allowed date
-      lastDate: DateTime(2100), // Latest allowed date
-      helpText: 'Select expense date', // Customize the help text
+      initialDate: date,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+      helpText: 'Select expense date',
       cancelText: 'Not now',
       confirmText: 'Select',
     );
@@ -58,9 +58,7 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
       Provider.of<TimeEntryProvider>(context, listen: false)
           .addOrUpdateEntry(TimeEntry(
         id: widget.timeEntry?.id ??
-            DateTime.now()
-                .millisecondsSinceEpoch
-                .toString(), // Simple ID generation
+            DateTime.now().millisecondsSinceEpoch.toString(),
         projectId: projectId!,
         taskId: taskId!,
         totalTime: totalTime,
