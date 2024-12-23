@@ -36,6 +36,17 @@ class TimeEntryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void addOrUpdateEntry(TimeEntry entry) {
+    int index = _entries.indexWhere((e) => e.id == entry.id);
+    if (index != -1) {
+      _entries[index] = entry;
+    } else {
+      _entries.add(entry);
+    }
+    _saveEntriesToStorage();
+    notifyListeners();
+  }
+
   List<TimeEntry> getEntriesByProjectId(String projectId) {
     return _entries.where((entry) => entry.projectId == projectId).toList();
   }
